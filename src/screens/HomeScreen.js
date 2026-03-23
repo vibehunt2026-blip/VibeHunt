@@ -23,6 +23,7 @@ import {
   PanResponder,
   Image,
   TextInput,
+  Platform,
 } from 'react-native';
 // FlatList removido — não era usado em nenhum lado (bug 1 corrigido)
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -407,19 +408,31 @@ export default function HomeScreen({ userData }) {
     setPage(0);
   };
 
+  // ── Web: layout simplificado sem swipe ─────────────────────────────────────
+  // Na web o PanResponder não funciona (sem touch nativo) e width*2 interfere
+  // com o scroll vertical do browser. Mostramos apenas o HomeContent directo.
+  if (Platform.OS === 'web') {
+    return (
+      <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: colors.bg }}>
+        <HomeContent userName={firstName} />
+      </SafeAreaView>
+    );
+  }
+
+  // ── Nativo: layout de dois painéis com swipe ─────────────────────────────
   return (
     <View style={styles.container} {...panResponder.panHandlers}>
-      {/* Container horizontal que desliza entre os dois painéis */}
+      {/* Animated.View com largura dupla — o painel de mensagens fica fora do ecrã */}
       <Animated.View style={[styles.pages, { transform: [{ translateX }] }]}>
 
         {/* ── Painel 0: Início ──────────────────────────────── */}
-        {/* flex:1 é obrigatório para o ScrollView interno ter altura definida */}
-        <SafeAreaView edges={['top']} style={{ width, flex: 1, backgroundColor: colors.bg }}>
+        {/* height é herdada via flex:1 no styles.pages + alignItems:'stretch' */}
+        <SafeAreaView edges={['top']} style={{ width, backgroundColor: colors.bg, flex: 1 }}>
           <HomeContent userName={firstName} />
         </SafeAreaView>
 
-        {/* ── Painel 1: Mensagens ───────────────────────────── */}
-        <View style={{ width, flex: 1, backgroundColor: colors.bg }}>
+        {/* ── Painel 1: Mensagens (fora do ecrã à direita) ─── */}
+        <View style={{ width, backgroundColor: colors.bg, flex: 1 }}>
           <MessagesContent onBack={goBack} />
         </View>
 
@@ -440,7 +453,14 @@ export default function HomeScreen({ userData }) {
 const styles = StyleSheet.create({
   // Container principal — overflow hidden impede que o painel de mensagens
   // seja visível antes de ser activado
-  container: { flex: 1, backgroundColor: colors.bg, overflow: 'hidden' },
+  // overflow:'hidden' é necessário no nativo para esconder o painel de mensagens.
+  // Na web, overflow:'hidden' bloqueia o scroll vertical do browser — por isso
+  // usamos Platform.select para aplicar só no nativo.
+  container: {
+    flex: 1,
+    backgroundColor: colors.bg,
+    overflow: Platform.select({ web: 'visible', default: 'hidden' }),
+  },
 
   // Container horizontal com LARGURA FIXA de width*2.
   // Porquê width*2 e não flex:1:
@@ -448,7 +468,10 @@ const styles = StyleSheet.create({
   // width=screenWidth) no espaço disponível — o resultado é imprevisível.
   // Com width*2 explícito, o container tem exactamente o dobro do ecrã
   // e o translateX de -width desloca exactamente um painel para fora.
-  pages: { flexDirection: 'row', width: width * 2 },
+  // flex:1 é obrigatório para herdar a altura do container.
+  // Sem flex:1, num flexDirection:'row' a altura colapsa para 0 no iOS
+  // porque height não é definida pelo main-axis (width) mas pelo cross-axis.
+  pages: { flexDirection: 'row', width: width * 2, flex: 1 },
 
   // Indicadores de página no fundo
   pageIndicator: {
