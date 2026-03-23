@@ -30,7 +30,7 @@ function AppContent() {
     avatar:      '💩',
     bio:         'Utilizador de teste para desenvolvimento',
     city:        'Porto',
-    birthYear:   '2000',
+    birthYear:   '2026',
     instagram:   '@insta_teste',
     website:     '',
     interests:   ['music', 'art', 'dance'],
