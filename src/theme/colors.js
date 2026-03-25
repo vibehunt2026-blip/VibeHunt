@@ -23,25 +23,25 @@ export const darkColors = {
 
 // ─── Paleta clara ─────────────────────────────────────────────────────────────
 export const lightColors = {
-  bg:           '#F5F5FA',
-  bgCard:       '#FFFFFF',
-  bgCard2:      '#EBEBF5',
-  bgInput:      '#F0EFF8',
-  primary:      '#7C3AED',
-  primaryLight: '#8B5CF6',
-  primaryDark:  '#6D28D9',
-  secondary:    '#DB2777',
-  accent:       '#D97706',
-  success:      '#059669',
-  error:        '#DC2626',
-  textPrimary:  '#111827',
-  textSecondary:'#4B5563',
-  textMuted:    '#9CA3AF',
-  border:       '#E5E7EB',
-  borderLight:  '#F3F4F6',
-  white:        '#FFFFFF',
-  black:        '#000000',
-  overlay:      'rgba(0,0,0,0.35)',
+  bg:           '#F8F9FA', // Fundo principal claro e limpo
+  bgCard:       '#FFFFFF', // Cards brancos para destacar do fundo
+  bgCard2:      '#F3F4F6', // Ligeiramente mais escuro que o card principal
+  bgInput:      '#F3F4F6', // Input cinza claro
+  primary:      '#7C3AED', // Roxo ligeiramente mais escuro para melhor contraste no claro
+  primaryLight: '#C4B5FD', // Roxo suave
+  primaryDark:  '#5B21B6', // Roxo profundo
+  secondary:    '#DB2777', // Rosa com contraste ajustado
+  accent:       '#D97706', // Âmbar com contraste ajustado
+  success:      '#059669', // Verde com contraste ajustado
+  error:        '#DC2626', // Vermelho com contraste ajustado
+  textPrimary:  '#111827', // Quase preto para o texto principal
+  textSecondary:'#4B5563', // Cinza escuro
+  textMuted:    '#9CA3AF', // Cinza médio
+  border:       '#E5E7EB', // Borda suave
+  borderLight:  '#F3F4F6', // Borda quase imperceptível
+  white:        '#FFFFFF', // Mantém estático
+  black:        '#000000', // Mantém estático
+  overlay:      'rgba(0,0,0,0.4)', // Overlay ligeiramente mais suave
 };
 
 // Exportação padrão — compatibilidade com todos os ecrãs existentes
