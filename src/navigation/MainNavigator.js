@@ -17,6 +17,9 @@
 // Com useCallback, a referência só muda quando os dados relevantes mudam.
 // ─────────────────────────────────────────────────────────────────────────────
 
+// src/navigation/MainNavigator.js
+// Igual ao original mas com onSignOut passado ao ProfileScreen.
+
 import React, { useCallback } from 'react';
 import { View, Text, StyleSheet, Platform } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -37,18 +40,18 @@ const TABS = [
   { name: 'Perfil',  icon: 'person',        iconOut: 'person-outline'         },
 ];
 
-export default function MainNavigator({ userData, onOpenSetup, onThemePress, onEditBtnLayout }) {
-
-  // useCallback garante que a referência do componente só muda quando
-  // userData muda — evita remounts desnecessários do HomeScreen
+export default function MainNavigator({
+  userData,
+  onOpenSetup,
+  onThemePress,
+  onEditBtnLayout,
+  onSignOut,          // ← novo
+}) {
   const HomeWithProps = useCallback(
     () => <HomeScreen userData={userData} />,
     [userData]
   );
 
-  // A referência só muda quando um dos seus dados muda.
-  // onOpenSetup, onThemePress e onEditBtnLayout são estáveis porque vêm
-  // de useCallback no App.js — esta cadeia de estabilidade é essencial.
   const ProfileWithProps = useCallback(
     () => (
       <ProfileScreen
@@ -56,9 +59,10 @@ export default function MainNavigator({ userData, onOpenSetup, onThemePress, onE
         onOpenSetup={onOpenSetup}
         onThemePress={onThemePress}
         onEditBtnLayout={onEditBtnLayout}
+        onSignOut={onSignOut}
       />
     ),
-    [userData, onOpenSetup, onThemePress, onEditBtnLayout]
+    [userData, onOpenSetup, onThemePress, onEditBtnLayout, onSignOut]
   );
 
   return (
@@ -133,7 +137,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
     borderWidth: 2, borderColor: colors.bg,
   },
-  badgeText: { color: colors.white, fontSize: 9, fontWeight: '800' },
-  label: { fontSize: 11, fontWeight: '500', color: colors.textMuted, marginTop: 2 },
+  badgeText:   { color: colors.white, fontSize: 9, fontWeight: '800' },
+  label:       { fontSize: 11, fontWeight: '500', color: colors.textMuted, marginTop: 2 },
   labelActive: { color: colors.primary, fontWeight: '700' },
 });
