@@ -31,7 +31,7 @@ import { Ionicons }     from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { colors, spacing, radius } from '../theme/colors';
 import { FeaturedEventCard, CompactEventCard, ListEventCard } from '../components/EventCard';
-import { mockUser, mockFriends, mockEvents, mockMessages } from '../data/mockData';
+import { mockUser, mockFriends, mockEvents, mockMessages } from '../data/MockData';
 
 const { width } = Dimensions.get('window');
 

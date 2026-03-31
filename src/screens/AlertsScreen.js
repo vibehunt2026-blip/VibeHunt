@@ -5,7 +5,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, spacing, radius } from '../theme/colors';
-import { mockAlerts } from '../data/mockData';
+import { mockAlerts } from '../data/MockData';
 
 const TYPE_COLORS = {
   event_hot:    colors.secondary,
