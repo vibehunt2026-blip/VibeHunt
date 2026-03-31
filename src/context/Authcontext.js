@@ -1,3 +1,5 @@
+export * from './AuthContext';
+
 // src/context/AuthContext.js
 //
 // Gere o estado de autenticação em toda a app.
@@ -5,7 +7,7 @@
 // a sessão actual e os métodos de auth.
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { supabase } from '../../lib/supabase';
+import { supabase } from '../services/apiClient';
 
 const AuthContext = createContext(null);
 
@@ -29,9 +31,6 @@ export function AuthProvider({ children }) {
   }, []);
 
   // ── Métodos expostos ──────────────────────────────────────────
-  const signUp = (email, password) =>
-    supabase.auth.signUp({ email, password });
-
   const signIn = (email, password) =>
     supabase.auth.signInWithPassword({ email, password });
 
